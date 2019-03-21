@@ -1,4 +1,19 @@
 module.exports = function(app) {
+	app.post('/cancion', function(req, res) {
+		res.send(
+			'Canción agregada:' +
+				req.body.nombre +
+				'<br>' +
+				' genero :' +
+				req.body.genero +
+				'<br>' +
+				' precio: ' +
+				req.body.precio
+		);
+	});
+
+	
+
 	app.get('/canciones', function(req, res) {
 		var respuesta = '';
 		if (req.query.nombre != null) respuesta += 'Nombre: ' + req.query.nombre + '<br>';
