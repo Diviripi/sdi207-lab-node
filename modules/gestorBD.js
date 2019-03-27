@@ -4,7 +4,24 @@ module.exports = {
     init: function (app, mongo) {
         this.mongo = mongo;
         this.app = app;
+    }, obtenerCanciones: function (criterio,funcionCallback) {
+        this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
+            if (err) {
+                funcionCallback(null);
+            } else {
+                var collection = db.collection('canciones');
+                collection.find(criterio).toArray(function (err, canciones) {
+                    if (err) {
+                        funcionCallback(null);
+                    } else {
+                        funcionCallback(canciones);
+                    }
+                    db.close();
+                });
+            }
+        });
     },
+
     insertarCancion: function (cancion, funcionCallback) {
         this.mongo.MongoClient.connect(this.app.get('db'), function (err, db) {
             if (err) {
