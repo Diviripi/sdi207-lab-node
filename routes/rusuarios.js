@@ -41,14 +41,26 @@ module.exports = function (app, swig, gestorBD) {
 			password: seguro
 		}
 
-		gestorBD.insertarUsuario(usuario, function (id) {
-			if (id == null) {
-				res.send("Error al insertar ");
-
+		var usuarioCheck={
+			email:usuario.email
+		}
+		gestorBD.obtenerUsuarios(usuarioCheck, function (usuarios) {
+			if (usuarios == null || usuarios.length == 0) {
+				//No user with that email
+				gestorBD.insertarUsuario(usuario, function (id) {
+					if (id == null) {
+						res.send("Error al insertar ");
+		
+					} else {
+						res.send('Usuario Insertado ' + id);
+					}
+				});
 			} else {
-				res.send('Usuario Insertado ' + id);
+				res.send("Email no valido");
 			}
 		});
+
+		
 
 	})
 
