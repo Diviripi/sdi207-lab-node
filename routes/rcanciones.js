@@ -16,7 +16,7 @@ module.exports = function (app, swig, gestorBD) {
 					if (result == null) {
 						res.send("Error en la modificación");
 					} else {
-						res.send("Modificado");
+						res.redirect("/publicaciones");
 					}
 				});
 			}
@@ -186,7 +186,7 @@ module.exports = function (app, swig, gestorBD) {
 										res.send("Error al subir el audio");
 									} else {
 										//alert("agregada");
-										res.redirect("/tienda");//Redirect to "tienda"
+										res.redirect("/publicaciones");//Redirect to "tienda"
 										//res.send("Agregada id: " + id);
 									}
 								});
