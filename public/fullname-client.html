@@ -1,0 +1,96 @@
+<html lang="en">
+
+<head>
+    <title>jQuery uoMusic </title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/cookie.js"></script>
+</head>
+
+<body>
+
+    <div id="formFullname">
+        <div>
+            <label for="name">Nombre</label>
+            <input type="text" id="name">
+        </div>
+
+        <div>
+            <label for="surname">Apellidos</label>
+            <input type="text" id="surname">
+        </div>
+        <div>
+            <button id="buttonGet">Saludar get</button>
+            <button id="buttonPost">Saludar post</button>
+        </div>
+
+
+
+
+    </div>
+
+
+    <!-- Contenido -->
+    <div class="container" id="contenedor-principal">
+        <!--  id para identificar -->
+
+    </div>
+    <script>
+      
+        //var URLbase = "https://localhost:8081/fullname";
+        var URLbase = "http://localhost:3001/fullname";
+
+      $("#buttonGet").click(function(){
+          saludar();
+          console.log("Saludo get");
+      })
+      $("#buttonPost").click(function(){
+          saludar2();
+          console.log("Saludo post");
+      })
+
+        function saludar() {
+            var name= $("#name").val();
+              var  surname=$("#surname").val();
+            $.ajax({
+
+                url: URLbase +  "?name="+name+"&surname="+surname,
+                type: "GET",
+                data: {},
+                dataType: 'json',
+              
+                success: function (respuesta) {
+                    $("body").append("<div>Hola "+respuesta.fullname+" GET</div>");
+                },
+                error: function (error) {
+                    $("body").append("<div>error</div>");
+                }
+            });
+        }
+
+        function saludar2() {
+            var name= $("#name").val();
+              var  surname=$("#surname").val();
+            $.ajax({
+
+                url: URLbase,
+                type: "POST",
+                data: {"name":name,"surname":surname},
+                dataType: 'json',
+              
+                success: function (respuesta) {
+                    $("body").append("<div>Hola "+respuesta.fullname+" POST</div>");
+                },
+                error: function (error) {
+                    $("body").append("<div>error</div>");
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,4 +1,32 @@
 module.exports = function(app, gestorBD) {
+	app.get('/fullname', function(req, res) {
+		var name = req.params.name ||  req.query.name;
+		var surname = req.params.surname || req.query.surname;
+		console.log(name)
+		console.log(surname)
+		if (name == null || surname == null) {
+			res.status(500);
+			res.json({ error: 'se ha producido un error' });
+		} else {
+			var fullname = name + ' ' + surname;
+			res.status(200);
+			res.send({ "fullname": fullname });
+		}
+	});
+
+	app.post('/fullname', function(req, res) {
+		var name = req.body.name;
+		var surname = req.body.surname;
+		if (name == null || surname == null) {
+			res.status(500);
+			res.json({ error: 'se ha producido un error' });
+		} else {
+			var fullname = name + ' ' + surname;
+			res.status(200);
+			res.send({ fullname: fullname });
+		}
+	});
+
 	app.get('/api/cancion', function(req, res) {
 		gestorBD.obtenerCanciones({}, function(canciones) {
 			if (canciones == null) {
@@ -110,14 +138,14 @@ module.exports = function(app, gestorBD) {
 					autenticado: false
 				});
 			} else {
-                var token = app.get('jwt').sign(
-                    {usuario: criterio.email , tiempo: Date.now()/1000},
-                    "secreto");
-                   
+				var token = app
+					.get('jwt')
+					.sign({ usuario: criterio.email, tiempo: Date.now() / 1000 }, 'secreto');
+
 				res.status(200);
 				res.json({
-                    autenticado: true,
-                    token: token
+					autenticado: true,
+					token: token
 				});
 			}
 		});
